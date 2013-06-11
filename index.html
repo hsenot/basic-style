@@ -17,7 +17,11 @@
     <script src="openlayers/OpenLayers.js"></script>
     <script type="text/javascript">
         var vmap, layer, layertostyle;
+        var sld_base_dir = "http://s1.pozi.com/vic_styles/sld/";
         function init(){
+                // Displaying sld_base_dir
+                document.getElementById("sld_base_directory").innerHTML = sld_base_dir;
+
                 vmap = new OpenLayers.Map('map',
                     {
                         projection: "EPSG:900913",
@@ -39,7 +43,7 @@
                 baselayer = new OpenLayers.Layer.WMS( "Vicmap Classic",
                     "http://basemap.pozi.com/geoserver/ows",
                     {layers: 'VicmapClassic'},
-                    {opacity: 0.5} 
+                    {opacity: 1} 
                 );
                 vmap.addLayer(baselayer);
 
@@ -75,7 +79,7 @@
 
                     var sl = document.getElementById("sld_location");
                     if (sl.value){
-                        basic_layer_definition.sld=sl.value;
+                        basic_layer_definition.sld=sld_base_dir+sl.value;
                     };
 
                     layertostyle = new OpenLayers.Layer.WMS( "Layer to style",
@@ -95,10 +99,10 @@
   </head>
   <body onload="init()">
     <p> 
-        USER: gen_user_allcouncils //
-        LAYER:<input type="text" name="layer_to_style" id="layer_to_style" size=40 value="sii:VMADMIN.LOCALITY_POLYGON" /> //
-        SLD:<input type="text" name="sld_location" id="sld_location" size=50 value="" />
-        <button onclick="refreshWMS()">Refresh</button>
+        USER=gen_user_allcouncils *
+        LAYER=<input type="text" name="layer_to_style" id="layer_to_style" size=40 value="sii:VMADMIN.LOCALITY_POLYGON" /> *
+        SLD=<span id="sld_base_directory"></span><input type="text" name="sld_location" id="sld_location" size=20 value="" />
+        <button onclick="refreshWMS()">Apply</button>
     </p>
     <div id="map" class="smallmap"></div>
   </body>
